@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,13 +73,17 @@ public class QuoteServiceImpl implements QuoteService {
             throw new CommonException(ErrorCode.QUOTE_NOT_FOUND.setMessageSource(messageSource));
         }
         quoteDto.setId(quoteId);
-        quoteRepository.save(quoteMapper.toEntity(quoteDto));
-        return null;
+        return quoteMapper.toDto(quoteRepository.save(quoteMapper.toEntity(quoteDto)));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public QuoteDto getRandomQuote() {
-        return quoteMapper.toDto(quoteRepository.getRandomQuote());
+        Optional<Quote> quotes = quoteRepository.findAll()
+                .stream()
+                .findAny();
+        if (!quotes.isPresent()) throw new CommonException(ErrorCode.RANDOM_ITEM.setMessageSource(messageSource));
+        return quoteMapper.toDto(quotes.get());
     }
 
     @Override

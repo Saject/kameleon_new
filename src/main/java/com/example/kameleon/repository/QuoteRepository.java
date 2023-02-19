@@ -11,13 +11,6 @@ import java.util.List;
 @Repository
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
-    @Query(value = "SELECT * " +
-            "FROM \"quote\" q  " +
-            "ORDER BY random() " +
-            "LIMIT 1;", nativeQuery = true)
-    Quote getRandomQuote();
-
-
     @EntityGraph(value = "quote-entity-graph")
     List<Quote> findAll();
 

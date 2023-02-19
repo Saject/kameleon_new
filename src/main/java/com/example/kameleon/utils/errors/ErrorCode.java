@@ -14,7 +14,8 @@ public enum ErrorCode {
     VOICE_NOT_FOUND(5,"voice.not.found"),
     ALREADY_VOTED(6,"already.voted"),
     VALIDATION_MISSIN_REQ_PARAM(7, "validation.req.missing.param"),
-    VALIDATION_MISSING(8, "validation.req.missing")
+    VALIDATION_MISSING(8, "validation.req.missing"),
+    RANDOM_ITEM(9,"random.item.not.found")
     ;
 
     public Integer code;
